@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+     <link rel="stylesheet" href="style.css">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+</head>
+<body>
+     <header class="main-header">
+    <div class="logo"><a href="index.html"><h4>KIMIAKI YASUI</h4></div>
+    </a>
+    <nav>
+      <ul class="nav-menu">
+       
+    </nav>
+  </header>
+
+    <h1>Artwork</h1>
+    
+   <div class="slideshow" id="slideshow">
+  
+    <img src="toover.jpg" class="slide active" alt="写真1">
+    
+    <img src="ao.jpg" class="slide" alt="写真2">
+    <img src="city.jpg" class="slide" alt="写真3">
+    <img src="shop.jpg" class="slide" alt="写真3">
+    <img src="snow.jpg" class="slide" alt="写真3">
+  </div>
+  <div class="caption" id="caption">Exit /1</div>
+
+    <script>
+    const slides = document.querySelectorAll('.slide');
+    const captions = [
+      "Exit /1",
+      "blue /2",
+      "city /3",
+      "shop /4",
+      "snow /5",
+    ];
+    const captionElement = document.getElementById('caption');
+    let currentIndex = 0;
+
+    document.getElementById('slideshow').addEventListener('click', () => {
+      // 現在の画像を非表示
+      slides[currentIndex].classList.remove('active');
+
+      // インデックスを更新（ループ）
+      currentIndex = (currentIndex + 1) % slides.length;
+
+      // 新しい画像を表示
+      slides[currentIndex].classList.add('active');
+
+      // キャプションも更新
+      captionElement.textContent = captions[currentIndex];
+    });
+  </script>
+
+   
+
+
+   <style>
+    header.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: white;
+  border-bottom: 1px solid #ccc;
+}
+.logo a :hover{color: #ccc;
+
+}
+   
+    .slideshow {
+     margin: 0 auto;
+     
+    
+      
+    }
+    .slideshow {
+      position: relative;
+      width: 600px;
+      height: 400px;
+      overflow: hidden;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.6s ease-in-out;
+    }
+   .slide.active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    .caption {
+      font-size: 1.2em;
+      text-align: center;
+      height: 1.5em;
+    }
+  
+        #photo {
+      width: 500px;
+      height: 300px;
+      object-fit: cover;
+      cursor: pointer;
+    }
+    a,h4{
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    h1{
+        text-align: center;
+        padding: 1rem;
+    }
+    
+    img{
+        width:640px;
+        
+        
+    }
+   
+   @media (max-width: 600px) {
+      .slideshow {
+  position: relative;
+  width: 80%;
+  height: auto;
+  max-width: 600px; /* 最大幅 */
+  aspect-ratio: 3 / 2; /* アスペクト比 600x400 を維持 */
+  overflow: hidden;
+  cursor: pointer;
+  margin: 0 auto 20px auto;
+}
+
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out;
+}
+
+.slide.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.caption {
+  font-size: 1.2em;
+  text-align: center;
+  height: 1.5em;
+  margin-bottom: 2rem;
+}
+
+/* 全体の img タグに影響しないように、特定の画像サイズ指定を削除 */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* タイトルの装飾 */
+h1 {
+  text-align: center;
+  padding: 1rem;
+  font-size: 2rem;
+}
+
+    }
+  </style>
+
+    
+</body>
+</html>

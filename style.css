@@ -1,0 +1,250 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+
+header.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: white;
+  border-bottom: 1px solid #ccc;
+}
+
+.logo {
+  font-size: 2rem;
+  font-weight: bold;
+}
+.image-container {
+      position: relative;
+      
+      
+    }
+   .overlay-text {
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: rgb(9, 0, 0);
+      font famiry Arai;
+      font-size: 90px;
+      font-weight: bold;
+     の背景 */
+      padding: 10px 20px;
+      opacity: 0;
+      transform: translate(-50%, -40%);
+      transition: opacity 1s ease, transform 1s ease;
+      opacity: 0;
+      animation: fadeUp 3.0s ease-out forwards;
+      
+    }
+   @keyframes fadeUp {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -40%);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
+    }
+    
+
+.nav-menu {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+
+  
+
+.exhibitions a {
+  
+
+
+  
+  font-size: 24px !important; /* ここを大きくしました */
+  font-weight: bold;
+  color: #444;
+}
+
+
+
+ .exhibitions a:hover{
+  cursor: pointer;
+  color: #ccc;
+}
+.nav-menu li a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+.hero{
+  text-align: center;
+  padding: 0;
+}
+.hero img {
+  margin: 0;
+  width: 1900px;
+  height: auto;
+}
+
+section {
+  padding: 2rem;
+}
+
+.welcome {
+  text-align: center;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: black;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+.exhibition-cards {
+  display: flex;
+  gap: 1.3rem;
+  margin-top: 1rem;
+}
+.card{
+  display:flex;
+  flex-direction: column;
+}
+
+.card img {
+  width: 280px;
+  height: 168px;
+  margin-left: 24px;
+}
+
+.card-caption {
+  text-align: center;
+  font-size: 1em;
+  margin-top: 8px;
+  color: #444;
+}
+.member-banner {
+  background-color: #00b7ff;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  font-weight: bold;
+}
+.art-artists{
+  text-align: center;
+}
+.events{
+  text-align: center;
+}
+.events img{
+  width:800px
+}
+.text {
+  display: flex;
+  gap: 16px; /* 要素間の隙間を調整（お好みで変更可） */
+}
+.visitor-guide{
+  text-align: center;
+}
+.membership{
+  text-align: center;
+}
+.art-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+.visitor-guide img{
+  width:800px;
+}
+
+
+footer {
+  background: #f2f2f2;
+  padding: 2rem;
+  text-align: center;
+}
+
+.footer-content nav a {
+  margin: 0 0.5rem;
+  text-decoration: none;
+  color: #333;
+}
+.TEXT{
+  font-size:16px;
+   
+  }
+@media (max-width: 768px) {
+  header.main-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .nav-menu {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .hero img {
+    width: 100%;
+    height: auto;
+  }
+
+  .overlay-text {
+    font-size: 36px;
+    top: 40%;
+  }
+
+  .exhibition-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .card img {
+    width: 90%;
+    margin-left: 0;
+  }
+
+  .events img,
+  .visitor-guide img {
+    width: 100%;
+    height: auto;
+  }
+
+  .text {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .TEXT {
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .art-grid {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  }
+
+  footer {
+    font-size: 14px;
+  }
+}
