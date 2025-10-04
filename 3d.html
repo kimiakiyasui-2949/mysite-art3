@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=1200">
+<!DOCTYPE html>
+  <title>Creation</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      font-family: 'Georgia', serif;
+      overflow-x: hidden;
+      text-align: center;
+    }
+
+    header {
+      background: #111;
+      color: #fff;
+      text-align: center;
+      padding: 30px;
+      font-size: 40px;
+      position: relative;
+    }
+
+    header a {
+      text-decoration: none;
+      color: white;
+    }
+
+    /* ===== ハンバーガーメニューアイコン ===== */
+    .hamburger {
+      position: absolute;
+      top: 40px;
+      right: 25px;
+      width: 70px;
+      height: 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      z-index: 3001;
+    }
+
+    .hamburger span {
+      display: block;
+      height: 4px;
+      background: white;
+      border-radius: 3px;
+      transition: 0.4s;
+    }
+
+    /* 開いた時のアニメーション */
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translateY(10px);
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translateY(-10px);
+    }
+
+    /* ===== フルスクリーンメニュー ===== */
+    .fullscreen-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(17, 17, 17, 0.97);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 40px;
+      z-index: 3000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.5s ease;
+    }
+
+    .fullscreen-menu.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .fullscreen-menu a {
+      color: #fff;
+      text-decoration: none;
+      margin: 20px 0;
+      transition: color 0.3s;
+      font-size: 70px;
+    }
+
+    .fullscreen-menu a:hover {
+      color: #cddc39;
+    }
+
+    /* ===== メイン部分 ===== */
+    .container {
+      width: 80%;
+      margin: 0 auto;
+      text-align: center;
+      position: relative;
+    }
+
+    .photo-group {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 120px;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+
+    .mini-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 20px;
+    }
+
+    .mini-group img {
+      width: 120px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .mini-group img:hover {
+      transform: scale(1.05);
+    }
+
+    .ao { margin-right:160px; }
+    .town { margin-right: 60px; }
+
+    .person {
+      width: 30%;
+      max-width: 350px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .person:hover {
+      transform: scale(1.05);
+    }
+
+    .text1 {
+      position: absolute;
+      top: 20px;
+      right: 40%;
+      font-size: 3vw;
+      color: #ddd;
+    }
+
+    .text1 span {
+      display: block;
+      margin-top: 20px;
+    }
+
+    .design {
+      position: absolute;
+      top: 200px;
+      left: 15%;
+      font-size: 7vw;
+      color: #cddc39;
+    }
+
+    .image-block {
+      position: relative;
+      display: inline-block;
+      margin: 50px 20px;
+    }
+
+    .image-block img {
+      width: 75%;
+      height: auto;
+      display: block;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .image-block img:hover {
+      transform: scale(1.03);
+    }
+
+    .image-block h3,
+    .image-block h4 {
+      position: absolute;
+      top: 89%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      font-size: 3vw;
+      text-shadow: 2px 2px 4px #000;
+      margin: 0;
+    }
+
+    footer {
+      background: #111;
+      color: #fff;
+      text-align: center;
+      padding: 130px;
+      font-size: 80px;
+    }
+
+    /* ===== モーダル ===== */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      padding-top: 60px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    .modal-content {
+      margin: auto;
+      display: block;
+      max-width: 90%;
+      max-height: 80vh;
+      border-radius: 10px;
+    }
+
+    @keyframes zoom {
+      from {transform:scale(0)} 
+      to {transform:scale(1)}
+    }
+
+    .close {
+      position: absolute;
+      top: 70px;
+      right: 45px;
+      color: #fff;
+      font-size: 70px;
+      font-weight: normal;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    .close:hover {
+      color: #bbb;
+    }
+  </style>
+</head>
+<body>
+  <header>
+  
+    <div>Creation</div>
+
+    <!-- ハンバーガーアイコン -->
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </header>
+
+  <!-- フルスクリーンメニュー -->
+  <div class="fullscreen-menu" id="fullscreenMenu">
+    <a href="main.html">Home</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#contact">Contact</a>
+  </div>
+
+  <div class="container">
+
+    <!-- 人物＋小さい写真エリア -->
+    <div class="photo-group">
+      <div class="mini-group">
+        <img src="ao.jpg" alt="小さい写真1" class="ao modal-image">
+        <img src="Id 324.jpg" alt="小さい写真2" class="modal-image">
+        <img src="town.jpg" alt="小さい写真3" class="town modal-image">
+      </div>
+
+      <img src="aunt.jpg" alt="人物" class="person modal-image">
+    </div>
+
+    <!-- テキスト -->
+    <div class="text1">
+      <span>Make</span>
+      <span>me</span>
+      <span>HIGH</span>
+    </div>
+
+    <div class="design">design</div>
+
+    <!-- ビルの空 -->
+    <div class="image-block">
+      <img src="bill.jpg" alt="ビルと空" class="modal-image">
+      <h3>SKY</h3>
+    </div>
+
+    <!-- ストリート -->
+    <div class="image-block">
+      <img src="street.jpg" alt="ストリート" class="modal-image">
+      <h4>STREET</h4>
+    </div>
+
+  </div>
+
+  <footer>Just like the weather</footer>
+
+  <!-- モーダル本体 -->
+  <div id="myModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="img01">
+  </div>
+
+  <script>
+    // ===== モーダル画像 =====
+    const modal = document.getElementById("myModal");
+    const modalImg = document.getElementById("img01");
+    const images = document.querySelectorAll(".modal-image");
+    const closeBtn = document.querySelector(".close");
+
+    images.forEach(img => {
+      img.addEventListener("click", function() {
+        modal.style.display = "block";
+        modalImg.src = this.src;
+      });
+    });
+
+    closeBtn.onclick = function() {
+      modal.style.display = "none";
+    }
+
+    modal.onclick = function(e) {
+      if (e.target === modal) {
+        modal.style.display = "none";
+      }
+    }
+
+    // ===== ハンバーガーメニュー制御 =====
+    const hamburger = document.getElementById("hamburger");
+    const fullscreenMenu = document.getElementById("fullscreenMenu");
+
+    hamburger.addEventListener("click", () => {
+      hamburger.classList.toggle("active");
+      fullscreenMenu.classList.toggle("active");
+    });
+  </script>
+</body>
+</html>
+
