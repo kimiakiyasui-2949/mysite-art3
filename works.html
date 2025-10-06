@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>スクロール画像＆文字フェード</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { 
+    height:100%;
+    overflow-x:hidden; 
+    scroll-behavior: smooth;
+    font-family: 'Georgia', serif;
+    margin: 0;
+  }
+  header{
+    font-size: 24px;
+    margin:0;
+
+    
+  }
+  /* ×のアニメーション & 白色 */
+.hamburger.active div:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+  background: #fff; /* 白色 */
+}
+.hamburger.active div:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active div:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+  background: #fff; /* 白色 */
+}
+
+
+  /* ハンバーガーメニュー */
+  .hamburger {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    cursor: pointer;
+    width: 30px;
+    height: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .hamburger div {
+    height: 4px;
+    background: #0d0d0d;
+    border-radius: 2px;
+  }
+
+  /* 全画面メニュー */
+  .menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: rgba(0,0,0,0.95);
+    color: #fff;
+    overflow: hidden;
+    transition: height 0.5s ease;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Georgia', serif;
+  }
+  .menu.show { height: 100%; }
+  .menu a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 6rem;
+    margin: 20px 0;
+    opacity: 0;
+    transition: opacity 0.5s ease 0.3s;
+  }
+  .menu.show a { opacity: 1; }
+
+  /* 各スライドセクション */
+  .section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-align: center;
+    opacity: 0;
+    transform: translateY(60px);
+    transition: all 1s ease;
+  }
+
+  .section.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* 上部文字 */
+  .section .slide-text {
+    top: 30px;
+    left: 20px;
+    color: #f40707;
+    font-size: 2.0rem;
+    width:100%;
+    background-color: #fff;
+    
+  }
+
+  /* 中央文字 */
+  .section .slide-center-text {
+    font-size: 4rem;
+    text-shadow: 3px 3px 15px rgba(7, 7, 7, 0.7);
+  }
+
+</style>
+</head>
+<body>
+  <header> works</heade>
+
+<!-- ハンバーガー -->
+<div class="hamburger" id="hamburger">
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+
+<!-- 全画面メニュー -->
+<div class="menu" id="menu">
+  <a href="index.html">Home</a>
+  <a href="3d.html">Create</a>
+  <a href="contact.html">Contact</a>
+</div>
+
+<!-- スクロールで現れる画像セクション -->
+<section class="section" style="background-image:url('beach.jpg')">
+  <div class="slide-text">Beach</div>
+  <div class="slide-center-text">Welcome to the Beach</div>
+</section>
+
+<section class="section" style="background-image:url('airport.jpg')">
+  <div class="slide-text">Air port</div>
+  <div class="slide-center-text">Flying High</div>
+</section>
+
+<section class="section" style="background-image:url('man.jpg')">
+  <div class="slide-text">Street</div>
+  <div class="slide-center-text">City Life</div>
+</section>
+
+<section class="section" style="background-image:url('river.jpg')">
+  <div class="slide-text">River</div>
+  <div class="slide-center-text">Flowing Nature</div>
+</section>
+
+<script>
+  
+
+  
+  // ハンバーガーメニュー
+ // ハンバーガーメニュー
+const hamburger = document.getElementById('hamburger');
+const menu = document.getElementById('menu');
+
+hamburger.addEventListener('click', () => {
+  menu.classList.toggle('show');
+  hamburger.classList.toggle('active'); // ← ここでクラスを追加
+});
+
+
+  // スクロールで各セクションをフェードイン
+  const sections = document.querySelectorAll('.section');
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.3 });
+
+  sections.forEach(section => {
+    observer.observe(section);
+  });
+</script>
+</body>
+</html>
+

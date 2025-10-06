@@ -1,74 +1,159 @@
-<!-- contact.html -->
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>お問い合わせ</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact</title>
+<style>
+  /* 全体 */
+  body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #000;
+    color: #fff;
+    font-family: 'Georgia', serif;
+    position: relative;
+  }
+
+  /* 上中央のタイトル */
+  .title {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 48px;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  /* ハンバーガーアイコン */
+  .hamburger {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 30px;
+    height: 25px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 20;
+  }
+
+  .hamburger div {
+    height: 4px;
+    background: #fff;
+    border-radius: 2px;
+  }
+
+  /* 全画面メニュー */
+  .menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.95);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    z-index: 10;
+  }
+
+  .menu a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 80px;
+    margin: 20px 0;
+  }
+
+  /* メール送信欄 */
+  .contact-form {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .contact-form input, .contact-form textarea {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    width: 250px;
+    max-width: 90vw;
+  }
+
+  .contact-form button {
+    padding: 10px;
+    border: none;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 4px;
+  }
+
+  /* メディアクエリ（スマホ対応） */
+  @media (max-width: 768px) {
+    .title {
+      font-size: 32px;
+    }
+
+    .menu a {
+      font-size: 48px;
+    }
+
+    .contact-form {
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 20px;
+      width: 80%;
+      padding-right: 70px;
+      padding-left: 40px;
+    }
+
+    .contact-form input, .contact-form textarea {
+      width: 100%;
+    }
+  }
+
+</style>
 </head>
 <body>
-    <header>
-     <a href="index.html"><span class="text-2">KIMIAKI YASUI</span></a>
-     <hr>  
-    </header>
-    <section class="contact-1">
-  <h1>contact</h1>
-  <form action="send.php" method="post">
-    <label>お名前: <input type="text" name="name" required></label><br>
-    <label>メール: <input type="email" name="email" required></label><br>
-    <label>メッセージ:<br>
-      <textarea name="message" rows="5" cols="40" required></textarea>
-    </label><br>
-    <button type="submit">送信</button>
+
+  <div class="title">Contact</div>
+
+  <div class="hamburger" onclick="toggleMenu()">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+
+  <div class="menu" id="menu">
+    <a href="index.html">Home</a>
+    <a href="3d.html">Creation</a>
+    <a href="works.html">Works</a>
+  </div>
+
+  <form class="contact-form">
+    <input type="text" placeholder="Your Name" required>
+    <input type="email" placeholder="Your Email" required>
+    <textarea rows="4" placeholder="Message" required></textarea>
+    <button type="submit">Send</button>
   </form>
-  </section>
-<?php
-// ここにあなたのメールアドレスを設定してください
-$to = "kimiakiyasui@gmail.com";  // ←★自分のアドレスに書き換えてください
 
-// 文字コード設定（日本語メール対応）
-mb_language("Japanese");
-mb_internal_encoding("UTF-8");
+<script>
+  function toggleMenu() {
+    const menu = document.getElementById('menu');
+    menu.style.display = (menu.style.display === 'flex') ? 'none' : 'flex';
+  }
+</script>
 
-// 入力内容を取得（セキュリティのためにエスケープ）
-$name = htmlspecialchars($_POST['name'], ENT_QUOTES, 'UTF-8');
-$email = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
-$message = htmlspecialchars($_POST['message'], ENT_QUOTES, 'UTF-8');
-
-// 件名・本文作成
-$subject = "【お問い合わせ】$name様より";
-$body = "お名前: $name\nメールアドレス: $email\n\nメッセージ:\n$message";
-
-// 送信元（Fromヘッダー）を設定（迷惑メール対策でサーバーの制限に注意）
-$headers = "From: $email";
-
-// メール送信
-$success = mb_send_mail($to, $subject, $body, $headers);
-
-// 結果表示
-if ($success) {
-    echo "メッセージは送信されました。ありがとうございました！";
-} else {
-    echo "メッセージの送信に失敗しました。後ほど再度お試しください。";
-}
-?>
-
-  
-  <style>
-    .text-2{
-        font-size: 28px;
-        font-weight: bold;
-        padding:24px auto 12px 24px;
-    }
-    
-    header,a{
-        color: black;
-        text-decoration: none;
-    }
-    header,a:hover{
-        color: #ccc;
-    }
-
-  .contact-1  {position: fixed; bottom: 20px; left: 20px;}
-  </style>
 </body>
 </html>
+

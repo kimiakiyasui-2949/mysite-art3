@@ -119,9 +119,9 @@ h1 {
 .image-block-2 img,
 .image-block-3 img,
 .image-block-4 img {
-  width: 900px;
+  width: 1000px;
   max-width: 1000px;
-  height: 500px;
+  height: 600px;
   transition: transform 0.8s ease, box-shadow 0.8s ease, filter 0.8s ease;
   transform-origin: bottom center;
   transform: rotateX(-8deg) scale(0.98); /* 初期状態でめくれた感じ */
@@ -216,7 +216,12 @@ hr {
 }
 
 
-
+.text{
+  color: red;
+}
+.red{
+  color: rgb(14, 13, 13);
+}
    
    
  
@@ -226,7 +231,7 @@ hr {
 .image-block-2 p,
 .image-block-3 p,
 .image-block-4 p {
-  font-size: 2.0em;
+  font-size: 3.0em;
   margin: auto 35px 0px 10px;
 }
 

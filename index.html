@@ -14,22 +14,25 @@
 </head>
 <style>
   <style>
+<style>
+  
   body {
     margin: 0;
     padding: 0;
     font-family: 'Georgia', serif;
     overflow-x: hidden;
-    opacity: 0; /* 本体フェードイン用 */
+    opacity: 0;
     transition: opacity 1.5s ease;
   }
   body.loaded { opacity: 1; }
+
 
   /* 🔹 rolling 全画面表示 */
   #rolling {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background: black;
+    background: rgb(243, 241, 241);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -42,15 +45,21 @@
     pointer-events: none;
   }
   #rolling video {
-    position: absolute;
-    width: 10%; height: 20%;
-    object-fit: cover;
-    top: 1; left: 1;
-    z-index: -1;
-  }
+  position: relative;
+  width: 7%;     /* ✅ 動画サイズを小さく（例：30%） */
+  height: auto;   /* アスペクト比を保持 */
+  margin-top: 170px;
+  object-fit: contain;
+  z-index: 1;
+
+
+  box-shadow: 0 0 20px rgba(255,255,255,0.3); /* ほんのり光る効果（任意） */
+}
+
   #rolling p {
-    color: white;
-    font-size: 2em;
+    margin-bottom: 250px;
+    color: rgb(18, 18, 18);
+    font-size: 3em;
     letter-spacing: 3px;
     animation: fadeIn 2s ease-in-out;
     z-index: 2;
@@ -61,122 +70,148 @@
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* 🔹 本体コンテンツ */
   header {
     position: fixed;
     top: 0; left: 0;
     width: 100%;
-    background-color: rgba(21,20,20,0.8);
+    background-color: rgba(216, 11, 11, 0.8);
     color: white;
     text-align: center;
-    padding: 48px 20px 19px;
+    padding: 40px 20px 16px;
     z-index: 1000;
   }
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Georgia', serif;
-      background: #fff;
-      overflow-x: hidden;
-      width: 100%;
-    }
-    
-footer p{
-  background-color: black;
-  
-  color: white;
-  padding: 130px;
-  text-align: center;
-  font-size: 3.4em;
-  width: 120%;
- margin-top: 24px;
- 
-  
- 
-}
 
+  /* 🔹 ハンバーガーメニュー（改良版） */
+  .hamburger {
+    position: fixed;
+    top: 24px;
+    right: 20px;
+    width: 50px;
+    height: 40px;
+    cursor: pointer;
+    z-index: 2001;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 8px;
+  }
+
+  .hamburger span {
+    display: block;
+    height: 4px;
+    background: white;
+    border-radius: 2px;
+    transition: 0.4s;
+  }
+
+  /* 開閉アニメーション */
+  .hamburger.active span:nth-child(1) {
+    transform: translateY(10px) rotate(45deg);
+  }
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger.active span:nth-child(3) {
+    transform: translateY(-10px) rotate(-45deg);
+  }
+
+  /* 🔹 フルスクリーンメニュー */
+  .fullscreen-menu {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    z-index: 2000;
+  }
+  .fullscreen-menu.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .fullscreen-menu a {
+    color: white;
+    font-size: 8em;
+    text-decoration: none;
+    margin: 20px 0;
+    transition: color 0.3s;
+  }
+  .fullscreen-menu a:hover {
+    color: #ddd;
+  }
+
+  /* 🔹 スマホ用デザイン調整 */
+  @media (max-width: 768px) {
     header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background-color: rgba(21, 20, 20, 0.8);
-      color: white;
-      text-align: center;
-      padding: 48px 20px 19px;
-      z-index: 1000;
+      padding: 24px 10px;
+      font-size: 1.2rem;
     }
 
     .hamburger {
-      position: fixed;
-      top: 70px;
-      right: 20px;
-      width:95px;
-      height: 80px;
-      cursor: pointer;
-      z-index: 2001;
+      top: 18px;
+      right: 16px;
+      width: 40px;
+      height: 32px;
+      padding: 5px;
     }
 
     .hamburger span {
-      display: block;
-      height: 4px;
-      background: white;
-      margin: 6px 0;
-      transition: 0.4s;
-      border-radius: 2px;
-    }
-
-    /* ハンバーガーメニューの開閉アニメーション */
-    .hamburger.active span:nth-child(1) {
-      transform: translateY(10px) rotate(45deg);
-    }
-    .hamburger.active span:nth-child(2) {
-      opacity: 0;
-    }
-    .hamburger.active span:nth-child(3) {
-      transform: translateY(-10px) rotate(-45deg);
-    }
-
-    /* 全画面メニュー */
-    .fullscreen-menu {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.95);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.5s ease;
-      z-index: 2000;
-    }
-
-    .fullscreen-menu.active {
-      opacity: 1;
-      pointer-events: auto;
+      height: 3px;
     }
 
     .fullscreen-menu a {
-      color: white;
-      font-size: 5rem;
-      text-decoration: none;
-      margin: 20px 0;
-      transition: color 0.3s;
+      font-size: 7rem;
+      margin: 15px 0;
     }
 
-    .fullscreen-menu a:hover {
-      color: #ddd;
+    #rolling p {
+      font-size: 3.8em;
     }
+  }
+  footer p{
+    color: black;
+    font-size: 200px;
+    padding: 30px;
+    font-weight: bold;
+
+  }
+  .end{
+    padding: 30px;
+  }
+  .end img{
+    width: 49px
+    
+
+  }
+  .finisfh{
+    width:100%;
+    height:auto;
+    margin: 0;
+  }
+    .last{
+      background: #111;
+      color: #fff;
+      text-align: center;
+      padding: 160px;
+      font-size: 80px;
+      width: 100%;
+    }
+</style>
+
 </style>
 
 
 <!-- 🔹 rolling.html の内容を組み込む -->
 <div id="rolling">
-  <video src="for.mp4" autoplay muted playsinline></video>
+  <video src="for.mp4" autoplay muted playsinline class="for"></video>
+  <hr>
   <p>Welcome to Imagination</p>
 </div>
 <script>
@@ -245,11 +280,7 @@ footer p{
     });
   </script>
 <body>
-  
-  <header>
-    <h1>Imagination</h1>
-    <p class="subtitle">A short description for social media</p>
-  </header>
+
 
 
   </div>
@@ -311,7 +342,7 @@ footer p{
    <div class="image-block-3">
   <img src="tree.jpg" alt="Tree">
   <div class="video-text-container">
-    <h2>the passage of time</h2>
+    <h2 class="red">the passage of time</h2>
     <p class="fade-in-on-scroll">Tree <br>The shadows of the street trees sway gently<br>
     揺れる街路樹の影がゆっくり揺れる</p>
   </div>
@@ -336,8 +367,12 @@ footer p{
     </div>
   </section>
 
-<footer><p>Just like the weather</p></footer>
-  
+<footer><p>01<br>design photo</p></footer>
+ 
+  <div>
+<video src="for-1.mp4"loop muted playsinline autoplay class="finisfh"></video>
+</div>
+<footer class="last">Just like the weather</footer>
 </body>
 </html>
 <script>
