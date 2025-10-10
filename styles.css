@@ -223,7 +223,10 @@ hr {
   color: rgb(14, 13, 13);
 }
    
-   
+.word{
+  text-align: center;
+  font-size: 22px;
+}   
  
 
 .image-block p,

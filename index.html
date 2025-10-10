@@ -1,444 +1,397 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kimiaki Yasui</title>
-  <link rel="stylesheet" href="styles.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Sacramentoフォントの追加 -->
-  <link href="https://fonts.googleapis.com/css2?family=Sacramento&display=swap" rel="stylesheet">
- 
-<meta name="viewport" content="width=1200">
-<!DOCTYPE html>
-</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ページ例 スクロール演出</title>
 <style>
-  <style>
-<style>
-  
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Georgia', serif;
-    overflow-x: hidden;
-    opacity: 0;
-    transition: opacity 1.5s ease;
-  }
-  body.loaded { opacity: 1; }
+* { margin:0; padding:0; box-sizing:border-box; }
 
-
-  /* 🔹 rolling 全画面表示 */
-  #rolling {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgb(243, 241, 241);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    z-index: 3000;
-    transition: opacity 1s ease;
-  }
-  #rolling.hidden {
-    opacity: 0;
-    pointer-events: none;
-  }
-  #rolling video {
+body {
+  font-family: 'Georgia', serif;
+  overflow-x: hidden;
+  background: #f7f5f5;
+  color: #333;
   position: relative;
-  width: 7%;     /* ✅ 動画サイズを小さく（例：30%） */
-  height: auto;   /* アスペクト比を保持 */
-  margin-top: 170px;
-  object-fit: contain;
-  z-index: 1;
-
-
-  box-shadow: 0 0 20px rgba(255,255,255,0.3); /* ほんのり光る効果（任意） */
+  background-size: cover;
+  background-image: url('human.jpg');
+  background-position: center center;
+  background-attachment: fixed;
+  width: 100%;
 }
 
-  #rolling p {
-    margin-bottom: 250px;
-    color: rgb(18, 18, 18);
-    font-size: 3em;
-    letter-spacing: 3px;
-    animation: fadeIn 2s ease-in-out;
-    z-index: 2;
-    text-align: center;
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+/* ===== オープニング（イントロ） ===== */
+.intro-screen {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background-color: #bb0d0d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  opacity: 0.9;
+  z-index: 2000;
+  overflow: hidden;
+  animation: introSplit 2.5s ease forwards;
+  animation-delay: 3.8s;
+}
 
-  header {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%;
-    background-color: rgba(216, 11, 11, 0.8);
-    color: white;
-    text-align: center;
-    padding: 40px 20px 16px;
-    z-index: 1000;
-  }
-
-  /* 🔹 ハンバーガーメニュー（改良版） */
-  .hamburger {
-    position: fixed;
-    top: 24px;
-    right: 20px;
-    width: 50px;
-    height: 40px;
-    cursor: pointer;
-    z-index: 2001;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 8px;
-  }
-
-  .hamburger span {
-    display: block;
-    height: 4px;
-    background: white;
-    border-radius: 2px;
-    transition: 0.4s;
-  }
-
-  /* 開閉アニメーション */
-  .hamburger.active span:nth-child(1) {
-    transform: translateY(10px) rotate(45deg);
-  }
-  .hamburger.active span:nth-child(2) {
+@keyframes introSplit {
+  0% { clip-path: inset(0 0 0 0); background: rgba(0,255,0,0); }
+  40% { background: rgba(0,255,0,0.25); }
+  70% { background: rgba(0,255,0,0.35); }
+  100% {
+    clip-path: inset(0 50% 0 50%);
+    background: rgba(0,255,0,0.4);
     opacity: 0;
+    visibility: hidden;
   }
-  .hamburger.active span:nth-child(3) {
-    transform: translateY(-10px) rotate(-45deg);
-  }
+}
 
-  /* 🔹 フルスクリーンメニュー */
-  .fullscreen-menu {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.95);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.5s ease;
-    z-index: 2000;
-  }
-  .fullscreen-menu.active {
-    opacity: 1;
-    pointer-events: auto;
-  }
+.intro-text {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  opacity: 0;
+  margin-top: 40px;
+  transform: translateY(30px) scale(0.9);
+  animation: textFade 2.2s ease forwards;
+  animation-delay: 1s;
+}
 
-  .fullscreen-menu a {
-    color: white;
-    font-size: 8em;
-    text-decoration: none;
-    margin: 20px 0;
-    transition: color 0.3s;
-  }
-  .fullscreen-menu a:hover {
-    color: #ddd;
-  }
+@keyframes textFade {
+  0% { opacity: 0; transform: translateY(30px) scale(0.9); }
+  50% { opacity: 1; transform: translateY(0) scale(1.05); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
 
-  /* 🔹 スマホ用デザイン調整 */
-  @media (max-width: 768px) {
-    header {
-      padding: 24px 10px;
-      font-size: 1.2rem;
-    }
+/* ===== ヘッダー ===== */
+header {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 80px;
+  background: red;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 1000;
+  font-size: 30px;
+  opacity: 0.8;
+}
 
-    .hamburger {
-      top: 18px;
-      right: 16px;
-      width: 40px;
-      height: 32px;
-      padding: 5px;
-    }
+.header-message {
+  left: 0;
+  width: 100%;
+  color: rgb(8, 8, 8);
+  text-align: center;
+  font-size: 42px;
+  padding: 18px 0;
+  font-weight: bold;
+  z-index: 800;
+}
 
-    .hamburger span {
-      height: 3px;
-    }
+/* ===== ハンバーガー＆×ボタン ===== */
+.hamburger {
+  width: 30px;
+  height: 3px;
+  background: white;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 2001;
+}
 
-    .fullscreen-menu a {
-      font-size: 7rem;
-      margin: 15px 0;
-    }
+.hamburger::before,
+.hamburger::after {
+  content: '';
+  width: 30px;
+  height: 3px;
+  background: white;
+  position: absolute;
+  left: 0;
+  transition: all 0.4s ease;
+}
 
-    #rolling p {
-      font-size: 3.8em;
-    }
-  }
-  footer p{
-    color: black;
-    font-size: 200px;
-    padding: 30px;
-    font-weight: bold;
+.hamburger::before { top: -10px; }
+.hamburger::after { top: 10px; }
 
-  }
-  .end{
-    padding: 30px;
-  }
-  .end img{
-    width: 49px
-    
+.hamburger.active {
+  background: transparent;
+}
 
-  }
-  .finisfh{
-    width:100%;
-    height:auto;
-    margin: 0;
-  }
-    .last{
-      background: #111;
-      color: #fff;
-      text-align: center;
-      padding: 160px;
-      font-size: 80px;
-      width: 100%;
-    }
+.hamburger.active::before {
+  transform: rotate(45deg);
+  top: 0;
+  background: #fff;
+}
+
+.hamburger.active::after {
+  transform: rotate(-45deg);
+  top: 0;
+  background: #fff;
+}
+
+/* ×ボタン */
+.close-btn {
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  font-size: 40px;
+  color: white;
+  cursor: pointer;
+  z-index: 2002;
+  display: none;
+}
+
+.close-btn.show {
+  display: block;
+}
+
+/* ===== 全画面メニュー ===== */
+
+.menu {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 10, 10, 0.95);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1500;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.6s ease;
+}
+
+.menu.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.menu h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.menu p {
+  font-size: 20px;
+  color: #ccc;
+}
+
+.menu.active ~ .down {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+/* ===== セクション & コンテンツ ===== */
+main { position: relative; z-index: 900; }
+section {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 1s ease-out;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+section.show { opacity:1; transform:translateY(0); }
+
+.img-container { display:flex; align-items:center; justify-content:center; max-width:1200px; width:100%; gap:40px; flex-wrap:wrap; }
+.img-container img { width:55%; border-radius:4px; }
+.text-box { width:35%; min-width:300px; text-align:left; }
+.text-title-2,.text-title-3,.text-title-4 { font-size:48px;font-weight:bold;margin-bottom:30px; transition:all 1s ease-out; }
+.text-title-2 { color:#c04e4e; }
+.text-title-3 { color:#bd0d0d; }
+.text-title-4 { color:#f40404; }
+.text-desc-2,.text-desc-3,.text-desc-4 { font-size:20px; line-height:1.6; opacity:1; transform:translateY(30px); transition:all 1.2s ease-out; }
+.text-desc-2 { color:#090909; }
+.text-desc-3 { color:#060000; }
+.text-desc-4 { color:#060606; }
+
+.word { font-weight:bold;text-align:center;font-size:60px;padding:60px 0px;opacity:0;transform:translateY(50px);transition:all 1s ease-out;color:#0f0e0e; }
+.word.show { opacity:1; transform:translateY(0); }
+
+.down { position:fixed; top:130px; left:0; width:100%; z-index:1500; padding:10px 0; }
+.whether { font-size:24px; }
+.down div { color:rgb(234, 142, 13); text-align:right; font-size:21px; display:block; padding:8px 28px; }
+.down a { text-decoration:none; }
+
+/* ===== その他 ===== */
+.subway img { width:100%; height:100%; object-fit:cover; object-position:center; }
+footer { background:black; color:white; min-height:70vh; display:flex; align-items:center; justify-content:center; font-size:40px; font-weight:bold; }
+.video { width:100%; padding:12px; background-color:#f7f5f5; }
+.works{
+  text-decoration: none;
+  font-size: 70px;
+}
+.cont{
+  text-decoration: none;
+  font-size: 70px;
+}
+.des{
+  text-decoration: none;
+  font-size: 70px;
+}
+
+.works p{
+  text-decoration: none;
+  font-size: 70px;
+}
+.cont p{
+  text-decoration: none;
+  font-size: 70px;
+}
+.des p{
+  text-decoration: none;
+  font-size: 70px;
+}
+
+/* ===== スマホ対応 ===== */
+@media (max-width:768px){
+  .img-container { flex-direction:column; }
+  .img-container img { width:100%; }
+  .text-box { width:100%; text-align:center; }
+  .red { color:#f1f0f0; font-size:20px; margin-top:50px; }
+  .word-2 { color:white; }
+  h1 { color:#080000; }
+}
 </style>
-
-</style>
-
-
-<!-- 🔹 rolling.html の内容を組み込む -->
-<div id="rolling">
-  <video src="for.mp4" autoplay muted playsinline class="for"></video>
-  <hr>
-  <p>Welcome to Imagination</p>
-</div>
-<script>
-  // 🔹 ローディング → 本体フェードイン
-  window.addEventListener("load", () => {
-    setTimeout(() => {
-      document.getElementById("rolling").classList.add("hidden");
-      document.body.classList.add("loaded");
-    }, 3000); // 動画長さに合わせて調整
-  });
-</script>
-  
-  
-
-
-
-  <header>
-    <h1>Imagination</h1>
-    <p class="subtitle">A short description for social media</p>
-  </header>
-
-  <!-- 🔽 ハンバーガーボタン -->
-  <div class="hamburger" id="hamburger">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-
-  <!-- 🔽 フルスクリーンメニュー -->
-  <div class="fullscreen-menu" id="menu">
-    <a href="index.html">Home</a>
-    <a href="3d.html">Creation</a>
-    <a href="works.html">Works</a>
-    <a href="contact.html">Contact</a>
-  </div>
-
-  <section class="hero"></section>
-
-
-
-  <h2 class="change">ART IN DAY LIFE</h2>
-
-  <!-- （あなたの既存の .content-section などはそのまま残してOK） -->
-
- 
-
-  <script>
-    // ハンバーガーメニュー開閉処理
-    const hamburger = document.getElementById("hamburger");
-    const menu = document.getElementById("menu");
-
-    hamburger.addEventListener("click", () => {
-      hamburger.classList.toggle("active");
-      menu.classList.toggle("active");
-    });
-
-    // スクロールアニメーション（あなたの既存コード）
-    window.addEventListener('scroll', function () {
-      const target = document.querySelector('.change');
-      const scrollY = window.scrollY;
-      if (scrollY > 300 && scrollY < 700) {
-        target.classList.add('visible');
-      } else {
-        target.classList.remove('visible');
-      }
-    });
-  </script>
+</head>
 <body>
 
-
-
-  </div>
+<div class="intro-screen">
+  <div class="intro-text">Creation</div>
 </div>
 
-  <section class="hero">
-   
+<header>
+  <div>imagination</div>
+  <div class="hamburger" id="hamburger"></div>
+</header>
+<div class="close-btn" id="closeBtn">×</div>
+<div class="header-message">SOLUTION</div>
+
+<div class="menu" id="menu">
+  
+ <a href="3d.html"class="des"><p>Creation</p></a>
+ <a href="works.html"class="works"><P>works</P></a>
+  <a href="contact,html"class="cont"><p>Contact</p></a>
+</div>
+
+<div class="down">
+  <a href="#subway-1"><div>Subway</div></a>
+  <a href="#a-to-2"><div>Museum</div></a>
+  <a href="#street-1"><div>Street</div></a>
+  <a href="#tree-1"><div>Tree</div></a>
+  <a href="#whether-1"><div>Weather</div></a>
+</div>
+
+<main>
+  <section class="south">
+    <div class="whether">whether</div>
   </section>
 
-  
-
-
-  <h2 class="change">ART IN DAY LIFE</h2>
-
-  <section class="content-section">
-    <div class="image-block">
-        <a href="works.html" ><div class="overlay"></div></a>
-        
-        
-       
-    
-
-
-    <div class="image-block-1">
-        <p class="fade-in-on-scroll">Subway<br>
-          The half-asleep city slowly awakens to the rhythm of the subway<br>
-          半分眠ったままの街が、地下鉄のリズムに合わせて少しずつ目を覚ましていく。</p>
-      <a href="works-2.html" >
-      <div class="overlay-1"></div></a>
-      <img src="subway.jpg" alt="Subway"class=feed-in>
-      
-    </div>
-
-   <!-- ...既存のコード... -->
-<div class="bar">
-  <span>Exquisite artworks&nbsp;&nbsp;Art in everyday life&nbsp;&nbsp;Forever&nbsp;&nbsp;Exquisite artworks&nbsp;&nbsp;</span>
-</div>
-<!-- ...既存のコード... -->
-  
-    
-      
-    </div>
-    <!-- <div class="image-block-3">
-     
-  
-      <div class="overlay-3"></div></a>
-      <img src="tree.jpg" alt="Tree"class=feed-in>
-       
-<video width="200" height="300" controls>
-  <source src="tree.mp4" type="video/mp4">
-  お使いのブラウザは動画タグに対応していません。
-</video>
-      <p class="fade-in-on-scroll">Tree<br>
-        The shadows of the street trees sway gently
-      揺れる街路樹の影がゆっくり揺れる</p>
-    
-      
-    </div> -->
-   <div class="image-block-3">
-  <img src="tree.jpg" alt="Tree">
-  <div class="video-text-container">
-    <h2 class="red">the passage of time</h2>
-    <p class="fade-in-on-scroll">Tree <br>The shadows of the street trees sway gently<br>
-    揺れる街路樹の影がゆっくり揺れる</p>
-  </div>
-</div>
-</div>
-<div class="video">
-<video src="art.mp4"loop muted playsinline autoplay class="video"></video>
-</div>
-
-
-    <h2 class="text">Welcome to a creative world</h2>
-
-    <hr>
-
-    <div class="image-block-4">
-          <p class="fade-in-on-scroll">Musium<br>
-            In a corner of the museum, my steps came to a halt before a single artwork<br>
-            美術館の片隅、ひとつの作品の前で足が止まった。</p>
-      <img src="a-to.jpg"alt="Kitchen"class=feed-in>
-      <a href="works-4.html" ><div class="overlay-4"></div></a>
-   
+  <section class="back-2" id="subway-1">
+    <div class="img-container">
+      <img src="subway.jpg" alt="写真2">
+      <div class="text-box">
+        <div class="text-title-2">Subway</div>
+        <div class="text-desc-2">半分眠ったままの街が、地下鉄のリズムに合わせて少しずつ目を覚ましていく。</div>
+      </div>
     </div>
   </section>
 
-<footer><p>01<br>design photo</p></footer>
- 
-  <div>
-<video src="for-1.mp4"loop muted playsinline autoplay class="finisfh"></video>
+  <div class="word">imagination</div>
+
+  <section class="back-2" id="a-to-2">
+    <div class="img-container">
+      <img src="a-to.jpg" alt="写真2">
+      <div class="text-box">
+        <div class="text-title-2">Museum</div>
+        <div class="text-desc-2">美術館の片隅、ひとつの作品の前で足が止まった。</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="back-4" id="street-1">
+    <div class="img-container">
+      <img src="Id 324.jpg" alt="写真4">
+      <div class="text-box">
+        <div class="text-title-4">Street</div>
+        <div class="text-desc-4">灯る看板がゆらりと揺れ、その先には昼とは別の顔をした小さな店があった。</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="back-2" id="tree-1">
+    <div class="img-container">
+      <img src="tree.jpg" alt="写真2">
+      <div class="text-box">
+        <div class="text-title-2">Tree</div>
+        <div class="text-desc-2">揺れる街路樹の影がゆっくり揺れる。</div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="subway" id="whether-1">
+  <img src="view.jpg" alt="">
 </div>
-<footer class="last">Just like the weather</footer>
+
+<video src="art.mp4" autoplay muted loop playsinline class="video"></video>
+<footer>Just like weather</footer>
+
+<script>
+const hamburger = document.getElementById('hamburger');
+const menu = document.getElementById('menu');
+const closeBtn = document.getElementById('closeBtn');
+
+// ハンバーガークリック → メニュー開閉
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  menu.classList.toggle('active');
+  closeBtn.classList.toggle('show');
+});
+
+// ×ボタンクリック → メニュー閉じる
+closeBtn.addEventListener('click', () => {
+  hamburger.classList.remove('active');
+  menu.classList.remove('active');
+  closeBtn.classList.remove('show');
+});
+
+// スクロールで要素を表示
+const sections = document.querySelectorAll('section');
+const words = document.querySelectorAll('.word');
+
+function reveal() {
+  const triggerBottom = window.innerHeight * 0.85;
+  sections.forEach(section => {
+    const sectionTop = section.getBoundingClientRect().top;
+    if (sectionTop < triggerBottom) section.classList.add('show');
+  });
+  words.forEach(word => {
+    const wordTop = word.getBoundingClientRect().top;
+    if (wordTop < triggerBottom) word.classList.add('show');
+  });
+}
+
+window.addEventListener('scroll', reveal);
+window.addEventListener('load', reveal);
+</script>
 </body>
 </html>
-<script>
-  window.addEventListener('scroll', function () {
-    const target = document.querySelector('.change');
-    const scrollY = window.scrollY;
-
-    // 表示するスクロール位置の範囲（例：300px〜800px の間だけ表示）
-    if (scrollY > 300 && scrollY < 700) {
-      target.classList.add('visible');
-    } else {
-      target.classList.remove('visible');
-    }
-    
-  });
-  window.addEventListener('scroll', function() {
-  const targets = document.querySelectorAll('.fade-in-on-scroll');
-  const windowHeight = window.innerHeight;
-
-  targets.forEach(target => {
-    const rect = target.getBoundingClientRect();
-
-    // 要素の上端がウィンドウの下端より上（画面内に入ったか）を判定
-    if (rect.top < windowHeight && rect.bottom > 0) {
-      target.classList.add('visible');
-    } else {
-      target.classList.remove('visible');
-    }
-  });
-});
-
-  document.addEventListener("DOMContentLoaded", function () {
-    const fadeElems = document.querySelectorAll('.fade-in-on-scroll');
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, {
-      threshold: 0.1
-    });
-
-    fadeElems.forEach(elem => {
-      observer.observe(elem);
-    });
-  });
-  document.addEventListener("DOMContentLoaded", () => {
-  const targets = document.querySelectorAll(
-    ".image-block img, .image-block-1 img, .image-block-2 img, .image-block-3 img, .image-block-4 img, .fade-in-on-scroll"
-  );
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("visible");
-      }
-    });
-  }, { threshold: 0.1 });
-
-  targets.forEach(target => observer.observe(target));
-});
-
-</script>
-
-
-
 
