@@ -17,6 +17,7 @@
   header{
     font-size: 24px;
     margin:0;
+    padding: 6px;
 
     
   }
@@ -104,6 +105,11 @@
     opacity: 1;
     transform: translateY(0);
   }
+  .text{
+    margin-top: 250px;
+    font-size: 24px;
+    color: #faf2f2;
+  }
 
   /* 上部文字 */
   .section .slide-text {
@@ -116,7 +122,31 @@
     opacity: 0.4;
     
   }
+  .section-1{
+    width: 100%;
+    height: auto;
+    display: flex;
+  }
+  .video{
+    width: 50%;
+    padding: 40px;
+  }
+  .section-1,come{
+    font-size: 24px;
+   
+    align-items: center;
 
+    
+    
+  }
+ .section-3{
+  width: 100%;
+ }
+ .section-3,feel{
+  text-align: center;
+  padding: 24px;
+
+ }
   /* 中央文字 */
   .section .slide-center-text {
     font-size: 4rem;
@@ -138,19 +168,32 @@
 <!-- 全画面メニュー -->
 <div class="menu" id="menu">
   <a href="index.html">Home</a>
-  <a href="3d.html">Create</a>
+  <a href="3d.html">Creation</a>
   <a href="contact.html">Contact</a>
 </div>
 
 <!-- スクロールで現れる画像セクション -->
 <section class="section" style="background-image:url('beach.jpg')">
-  <div class="slide-text">Beach</div>
+
   <div class="slide-center-text">Welcome to the Beach</div>
+  <div class="text">scroll</div>
+</section>
+
+<section class="section-1"> <video src="for-1.mp4" autoplay muted loop playsinline class="video"></video>
+  <!-- <div class="slide-text">Air port</div>
+  <div class="slide-center-text">Flying High</div> -->
+  <div class="come">Come and feel the vibe</div>
 </section>
 
 <section class="section" style="background-image:url('airport.jpg')">
   <div class="slide-text">Air port</div>
   <div class="slide-center-text">Flying High</div>
+</section>
+
+<section class="section-3">
+  <!-- <div class="slide-text">Air port</div>
+  <div class="slide-center-text">Flying High</div> -->
+  <div class="feel">feel</div>
 </section>
 
 <section class="section" style="background-image:url('man.jpg')">

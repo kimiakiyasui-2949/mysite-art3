@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="viewport" content="width=1200">
+  
 <!DOCTYPE html>
   <title>Creation</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background: #fff;
+      background: #0d0000;
       font-family: 'Georgia', serif;
       overflow-x: hidden;
       text-align: center;
@@ -20,7 +20,7 @@
       background: #111;
       color: #fff;
       text-align: center;
-      padding: 30px;
+      padding: 40px;
       font-size: 40px;
       position: relative;
     }
@@ -35,8 +35,8 @@
       position: absolute;
       top: 30px;
       right: 25px;
-      width: 50px;
-      height: 40px;
+      width: 30px;
+      height: 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -46,7 +46,7 @@
 
     .hamburger span {
       display: block;
-      height: 5px;
+      height: 3px;
       background: white;
       border-radius: 3px;
       transition: 0.4s;
@@ -94,11 +94,11 @@
       text-decoration: none;
       margin: 20px 0;
       transition: color 0.3s;
-      font-size: 4em;
+      font-size: 74px;
     }
 
     .fullscreen-menu a:hover {
-      color: #cddc39;
+      color: #acbd11;
     }
 
     /* ===== メイン部分 ===== */
@@ -108,6 +108,20 @@
       text-align: center;
       position: relative;
     }
+     .section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-align: center;
+    
+  }
 
     .photo-group {
       display: flex;
@@ -153,23 +167,25 @@
 
     .text1 {
       position: absolute;
-      top: 20px;
-      right: 40%;
-      font-size: 3vw;
-      color: #ddd;
+      top: 330px;
+      right: 38%;
+      font-size: 2vw;
+      color: #e1840b;
     }
 
     .text1 span {
       display: block;
-      margin-top: 20px;
+      margin-top: 28px;
+      margin-right:  90px;
     }
-
+    
     .design {
-      position: absolute;
-      top: 200px;
-      left: 15%;
-      font-size: 7vw;
-      color: #cddc39;
+
+      text-align: left;
+      font-size: 6vw;
+      color: #f0f0ef;
+      padding-right: 320px;
+
     }
 
     .image-block {
@@ -202,13 +218,7 @@
       margin: 0;
     }
 
-    footer {
-      background: #111;
-      color: #fff;
-      text-align: center;
-      padding: 130px;
-      font-size: 80px;
-    }
+    footer{ background:black; color:white; min-height:50vh; display:flex; align-items:center; justify-content:center; font-size:40px; font-weight:bold; }
 
     /* ===== モーダル ===== */
     .modal {
@@ -251,6 +261,146 @@
     .close:hover {
       color: #bbb;
     }
+    .word{
+      width: 100%;
+      display: flex;         /* 追加: 横並びにする */
+;   /* 追加: 縦位置を中央に揃える */
+  gap: 20px;   
+    }
+    .why{
+      color: #f9f3f3;
+      padding-left: 100px;
+   
+    }
+    .te{
+      color: #f3ecec;
+      padding-left: 60px;
+    }
+    /* ===== スマホ対応：ハンバーガーメニューを大きく ===== */
+@media (max-width: 768px) {
+  .hamburger {
+    top: 25px;
+    right: 15px;
+    width: 30px;       /* ← 大きく */
+    height: 26px;  
+    /* ← 大きく */
+  }
+
+  .hamburger span {
+    height: 3px;       /* ← 線を太く */
+    border-radius: 1px;
+  }
+
+  .fullscreen-menu a {
+    font-size: 75px;  /* ← メニュー文字も少し小さめに調整（好みにより） */
+  }
+
+  header {
+    font-size: 28px;   /* タイトルサイズも少し調整 */
+    padding: 30px;
+  }
+}
+/* ===== スマホ全体レイアウト調整 ===== */
+@media (max-width: 768px) {
+  body {
+    text-align: center;
+  }
+
+  header {
+    font-size: 28px;
+    padding: 25px;
+  }
+
+  .design {
+    font-size: 8vw;        /* 自動で幅に応じて縮む */
+    padding-right: 0;      /* スマホでは右余白をなくす */
+    text-align: center;
+  }
+
+  .photo-group {
+    flex-direction: column; /* 縦並びに */
+    gap: 20px;
+    margin-top: 60px;
+  }
+
+  .mini-group {
+    flex-direction: row;   /* 横に並べて見やすく */
+    justify-content: center;
+  }
+
+  .mini-group img {
+    width: 90px;
+  }
+
+  .person {
+    width: 70%;
+    max-width: 280px;
+  }
+
+  <div class="text1">
+      <span>Make</span>
+      <span>me</span>
+      <span>HIGH</span>
+    </div>
+
+  .image-block img {
+    width: 90%;
+  }
+
+  .image-block h3,
+  .image-block h4 {
+    font-size: 6vw;
+    top: 85%;
+  }
+
+  footer {
+    font-size: 24px;
+    padding: 40px 0;
+  }
+
+  .word {
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    margin-top: 20px;
+  }
+
+  .why, .te {
+    padding: 0;
+  }
+}
+/* ===== 横スクロール防止（スマホ含む） ===== */
+html, body {
+  width: 100%;
+  overflow-x: hidden; /* 強制的に横スクロール非表示 */
+}
+
+/* ===== 横はみ出し対策（スマホ） ===== */
+@media (max-width: 768px) {
+  .ao, .town {
+    margin-right: 0; /* 固定マージンをリセット */
+  }
+
+  .text1 {
+    right: auto;
+    left: 0;
+    width: 100%;
+    text-align: center; /* 画面中央へ */
+  }
+
+  .container, .section, .image-block {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+
   </style>
 </head>
 <body>
@@ -265,6 +415,10 @@
       <span></span>
     </div>
   </header>
+  <div class="word">
+    <h2 class="why"> </h2>
+    <h2 class="te">from japan</h2>
+  </div>
 
   <!-- フルスクリーンメニュー -->
   <div class="fullscreen-menu" id="fullscreenMenu">
@@ -272,14 +426,18 @@
     <a href="works.html">Works</a>
     <a href="contact.html">Contact</a>
   </div>
+<section class="section">
+  
 
   <div class="container">
+    <h1 class="design">design image</h1>
+
 
     <!-- 人物＋小さい写真エリア -->
     <div class="photo-group">
       <div class="mini-group">
-        <img src="ao.jpg" alt="小さい写真1" class="ao modal-image">
-        <img src="Id 324.jpg" alt="小さい写真2" class="modal-image">
+        <img src="old woman.jpg" alt="小さい写真1" class="ao modal-image">
+        <img src="mono.jpg" alt="小さい写真2" class="modal-image">
         <img src="town.jpg" alt="小さい写真3" class="town modal-image">
       </div>
 
@@ -292,8 +450,9 @@
       <span>me</span>
       <span>HIGH</span>
     </div>
+  </section>
 
-    <div class="design">design</div>
+    <!-- <div class="design">design</div> -->
 
     <!-- ビルの空 -->
     <div class="image-block">
