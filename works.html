@@ -12,28 +12,26 @@
     overflow-x:hidden; 
     scroll-behavior: smooth;
     font-family: 'Georgia', serif;
-    margin: 0;
   }
+
   header{
     font-size: 24px;
     margin:0;
     padding: 6px;
-
-    
   }
-  /* ×のアニメーション & 白色 */
-.hamburger.active div:nth-child(1) {
-  transform: rotate(45deg) translate(6px, 6px);
-  background: #fff; /* 白色 */
-}
-.hamburger.active div:nth-child(2) {
-  opacity: 0;
-}
-.hamburger.active div:nth-child(3) {
-  transform: rotate(-45deg) translate(7px, -7px);
-  background: #fff; /* 白色 */
-}
 
+  /* ×のアニメーション & 白色 */
+  .hamburger.active div:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+    background: #fff;
+  }
+  .hamburger.active div:nth-child(2) {
+    opacity: 0;
+  }
+  .hamburger.active div:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+    background: #fff;
+  }
 
   /* ハンバーガーメニュー */
   .hamburger {
@@ -86,7 +84,7 @@
   /* 各スライドセクション */
   .section {
     position: relative;
-    width: 100%;
+    width: 100vw;  /* ← 幅を画面全体に固定 */
     height: 100vh;
     background-size: cover;
     background-position: center;
@@ -99,13 +97,16 @@
     opacity: 0;
     transform: translateY(60px);
     transition: all 1s ease;
+    margin: 0;
+    padding: 0;
   }
 
   .section.visible {
     opacity: 1;
     transform: translateY(0);
   }
-  .text{
+
+  .text {
     margin-top: 250px;
     font-size: 24px;
     color: #faf2f2;
@@ -116,37 +117,51 @@
     top: 30px;
     left: 20px;
     color: #f40707;
-    font-size: 2.0rem;
+    font-size: 2rem;
     width:100%;
     background-color: #fff;
     opacity: 0.4;
-    
   }
-  .section-1{
-    width: 100%;
+
+  /* 動画セクション */
+  .section-1 {
+    width: 100vw;
     height: auto;
     display: flex;
+    margin: 0;
+    padding: 0;
   }
-  .video{
+
+  .video {
     width: 50%;
-    padding: 40px;
+    padding: 0;
+    margin: 0;
+    padding-top:24px;
+    padding-bottom: 24px;;
   }
-  .section-1,come{
-    font-size: 24px;
-   
+
+  .section-1 .come {
+    font-size: 28px;
     align-items: center;
-
-    
-    
+    margin: 0;
+    padding-top: 36px;
+    color: #0f0f0f;
   }
- .section-3{
-  width: 100%;
- }
- .section-3,feel{
-  text-align: center;
-  padding: 24px;
 
- }
+  .section-3 {
+    width: 100vw;
+    margin: 0;
+    padding: 0;
+  }
+
+  .section-3 .feel {
+    text-align: center;
+    padding: 8px;
+    margin: 0;
+    font-size: 28px;
+    color: #0f0f0f;
+  }
+
   /* 中央文字 */
   .section .slide-center-text {
     font-size: 4rem;
@@ -156,86 +171,86 @@
 </style>
 </head>
 <body>
-  <header> works</heade>
+  <header>works</header>
 
-<!-- ハンバーガー -->
-<div class="hamburger" id="hamburger">
-  <div></div>
-  <div></div>
-  <div></div>
-</div>
+  <!-- ハンバーガー -->
+  <div class="hamburger" id="hamburger">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
 
-<!-- 全画面メニュー -->
-<div class="menu" id="menu">
-  <a href="index.html">Home</a>
-  <a href="3d.html">Creation</a>
-  <a href="contact.html">Contact</a>
-</div>
+  <!-- 全画面メニュー -->
+  <div class="menu" id="menu">
+    <a href="index.html">Home</a>
+    <a href="3d.html">Creation</a>
+    <a href="contact.html">Contact</a>
+  </div>
 
-<!-- スクロールで現れる画像セクション -->
-<section class="section" style="background-image:url('beach.jpg')">
-
+  <!-- スクロールで現れる画像セクション -->
+<section class="section" 
+  style="background-image:url('beach.jpg'); cursor:pointer;" 
+  onclick="location.href='beach.html'">
   <div class="slide-center-text">Welcome to the Beach</div>
   <div class="text">scroll</div>
 </section>
 
-<section class="section-1"> <video src="for-1.mp4" autoplay muted loop playsinline class="video"></video>
-  <!-- <div class="slide-text">Air port</div>
-  <div class="slide-center-text">Flying High</div> -->
-  <div class="come">Come and feel the vibe</div>
-</section>
 
-<section class="section" style="background-image:url('airport.jpg')">
-  <div class="slide-text">Air port</div>
-  <div class="slide-center-text">Flying High</div>
-</section>
+  <section class="section-1">
+    <video src="for-1.mp4" autoplay muted loop playsinline class="video"></video>
+    <div class="come">Come and feel the vibe</div>
+  </section>
 
-<section class="section-3">
-  <!-- <div class="slide-text">Air port</div>
-  <div class="slide-center-text">Flying High</div> -->
-  <div class="feel">feel</div>
-</section>
+  <section class="section" style="background-image:url('airport.jpg');
+  cursor:pointer;" 
+  onclick="location.href='airport.html'">
+    <div class="slide-text">Air port</div>
+    <div class="slide-center-text">Flying High</div>
+  </section>
 
-<section class="section" style="background-image:url('man.jpg')">
-  <div class="slide-text">Street</div>
-  <div class="slide-center-text">City Life</div>
-</section>
+  <section class="section-3">
+    <div class="feel">feel</div>
+  </section>
 
-<section class="section" style="background-image:url('river.jpg')">
-  <div class="slide-text">River</div>
-  <div class="slide-center-text">Flowing Nature</div>
-</section>
+  <section class="section" style="background-image:url('man.jpg')";
+  cursor:pointer;" 
+  onclick="location.href='man.html'">
+    <div class="slide-text">Street</div>
+    <div class="slide-center-text">City Life</div>
+  </section>
 
-<script>
-  
+  <section class="section" style="background-image:url('river.jpg');
+  cursor:pointer;" 
+  onclick="location.href='river.html'">
+    <div class="slide-text">River</div>
+    <div class="slide-center-text">Flowing Nature</div>
+  </section>
 
-  
-  // ハンバーガーメニュー
- // ハンバーガーメニュー
-const hamburger = document.getElementById('hamburger');
-const menu = document.getElementById('menu');
+  <script>
+    // ハンバーガーメニュー
+    const hamburger = document.getElementById('hamburger');
+    const menu = document.getElementById('menu');
 
-hamburger.addEventListener('click', () => {
-  menu.classList.toggle('show');
-  hamburger.classList.toggle('active'); // ← ここでクラスを追加
-});
-
-
-  // スクロールで各セクションをフェードイン
-  const sections = document.querySelectorAll('.section');
-
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
+    hamburger.addEventListener('click', () => {
+      menu.classList.toggle('show');
+      hamburger.classList.toggle('active');
     });
-  }, { threshold: 0.3 });
 
-  sections.forEach(section => {
-    observer.observe(section);
-  });
-</script>
+    // スクロールで各セクションをフェードイン
+    const sections = document.querySelectorAll('.section');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.3 });
+
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+  </script>
 </body>
 </html>
+
 
