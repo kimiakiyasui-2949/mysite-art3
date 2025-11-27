@@ -1,397 +1,416 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ページ例 スクロール演出</title>
-<style>
-* { margin:0; padding:0; box-sizing:border-box; }
-
-body {
-  font-family: 'Georgia', serif;
-  overflow-x: hidden;
-  background: #f7f5f5;
-  color: #333;
-  position: relative;
-  background-size: cover;
-  background-image: url('human.jpg');
-  background-position: center center;
-  background-attachment: fixed;
-  width: 100%;
-}
-
-/* ===== オープニング（イントロ） ===== */
-.intro-screen {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background-color: #bb0d0d;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  opacity: 0.9;
-  z-index: 2000;
-  overflow: hidden;
-  animation: introSplit 2.5s ease forwards;
-  animation-delay: 3.8s;
-}
-
-@keyframes introSplit {
-  0% { clip-path: inset(0 0 0 0); background: rgba(0,255,0,0); }
-  40% { background: rgba(0,255,0,0.25); }
-  70% { background: rgba(0,255,0,0.35); }
-  100% {
-    clip-path: inset(0 50% 0 50%);
-    background: rgba(0,255,0,0.4);
-    opacity: 0;
-    visibility: hidden;
-  }
-}
-
-.intro-text {
-  color: white;
-  font-size: 24px;
-  font-weight: bold;
-  opacity: 0;
-  margin-top: 40px;
-  transform: translateY(30px) scale(0.9);
-  animation: textFade 2.2s ease forwards;
-  animation-delay: 1s;
-}
-
-@keyframes textFade {
-  0% { opacity: 0; transform: translateY(30px) scale(0.9); }
-  50% { opacity: 1; transform: translateY(0) scale(1.05); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-/* ===== ヘッダー ===== */
-header {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  height: 80px;
-  background: red;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  z-index: 1000;
-  font-size: 30px;
-  opacity: 0.8;
-}
-
-.header-message {
-  left: 0;
-  width: 100%;
-  color: rgb(8, 8, 8);
-  text-align: center;
-  font-size: 42px;
-  padding: 18px 0;
-  font-weight: bold;
-  z-index: 800;
-}
-
-/* ===== ハンバーガー＆×ボタン ===== */
-.hamburger {
-  width: 30px;
-  height: 3px;
-  background: white;
-  position: relative;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  z-index: 2001;
-}
-
-.hamburger::before,
-.hamburger::after {
-  content: '';
-  width: 30px;
-  height: 3px;
-  background: white;
-  position: absolute;
-  left: 0;
-  transition: all 0.4s ease;
-}
-
-.hamburger::before { top: -10px; }
-.hamburger::after { top: 10px; }
-
-.hamburger.active {
-  background: transparent;
-}
-
-.hamburger.active::before {
-  transform: rotate(45deg);
-  top: 0;
-  background: #fff;
-}
-
-.hamburger.active::after {
-  transform: rotate(-45deg);
-  top: 0;
-  background: #fff;
-}
-
-/* ×ボタン */
-.close-btn {
-  position: fixed;
-  top: 25px;
-  right: 25px;
-  font-size: 40px;
-  color: white;
-  cursor: pointer;
-  z-index: 2002;
-  display: none;
-}
-
-.close-btn.show {
-  display: block;
-}
-
-/* ===== 全画面メニュー ===== */
-
-.menu {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(10, 10, 10, 0.95);
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 1500;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.6s ease;
-}
-
-.menu.active {
-  opacity: 1;
-  visibility: visible;
-}
-
-.menu h1 {
-  font-size: 48px;
-  margin-bottom: 20px;
-}
-
-.menu p {
-  font-size: 20px;
-  color: #ccc;
-}
-
-.menu.active ~ .down {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.4s ease;
-}
-
-/* ===== セクション & コンテンツ ===== */
-main { position: relative; z-index: 900; }
-section {
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 60px 20px;
-  opacity: 0;
-  transform: translateY(50px);
-  transition: all 1s ease-out;
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-}
-section.show { opacity:1; transform:translateY(0); }
-
-.img-container { display:flex; align-items:center; justify-content:center; max-width:1200px; width:100%; gap:40px; flex-wrap:wrap; }
-.img-container img { width:55%; border-radius:4px; }
-.text-box { width:35%; min-width:300px; text-align:left; }
-.text-title-2,.text-title-3,.text-title-4 { font-size:48px;font-weight:bold;margin-bottom:30px; transition:all 1s ease-out; }
-.text-title-2 { color:#c04e4e; }
-.text-title-3 { color:#bd0d0d; }
-.text-title-4 { color:#f40404; }
-.text-desc-2,.text-desc-3,.text-desc-4 { font-size:20px; line-height:1.6; opacity:1; transform:translateY(30px); transition:all 1.2s ease-out; }
-.text-desc-2 { color:#090909; }
-.text-desc-3 { color:#060000; }
-.text-desc-4 { color:#060606; }
-
-.word { font-weight:bold;text-align:center;font-size:60px;padding:60px 0px;opacity:0;transform:translateY(50px);transition:all 1s ease-out;color:#0f0e0e; }
-.word.show { opacity:1; transform:translateY(0); }
-
-.down { position:fixed; top:130px; left:0; width:100%; z-index:1500; padding:10px 0; }
-.whether { font-size:24px; }
-.down div { color:rgb(234, 142, 13); text-align:right; font-size:21px; display:block; padding:8px 28px; }
-.down a { text-decoration:none; }
-
-/* ===== その他 ===== */
-.subway img { width:100%; height:100%; object-fit:cover; object-position:center; }
-footer { background:black; color:white; min-height:50vh; display:flex; align-items:center; justify-content:center; font-size:40px; font-weight:bold; }
-.video { width:100%; padding:8px; background-color:#f7f5f5; }
-.works{
-  text-decoration: none;
-  font-size: 70px;
-}
-.cont{
-  text-decoration: none;
-  font-size: 70px;
-}
-.des{
-  text-decoration: none;
-  font-size: 70px;
-}
-
-.works p{
-  text-decoration: none;
-  font-size: 70px;
-}
-.cont p{
-  text-decoration: none;
-  font-size: 70px;
-}
-.des p{
-  text-decoration: none;
-  font-size: 70px;
-}
-
-/* ===== スマホ対応 ===== */
-@media (max-width:768px){
-  .img-container { flex-direction:column; }
-  .img-container img { width:100%; }
-  .text-box { width:100%; text-align:center; }
-  .red { color:#f1f0f0; font-size:20px; margin-top:50px; }
-  .word-2 { color:white; }
-  h1 { color:#080000; }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 <body>
-
-<div class="intro-screen">
-  <div class="intro-text">Creation</div>
+<div id="hamburger-menu" class="hamburger-menu">
+    <span class="close-btn">&times;</span>
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="relax.html">About</a></li>
+        <li><a href="gallery.html">Room</a></li>
+        <li><a href=" biography.html"> biography</a></li>
+        
+    </ul>
 </div>
 
-<header>
-  <div>imagination</div>
-  <div class="hamburger" id="hamburger"></div>
-</header>
-<div class="close-btn" id="closeBtn">×</div>
-<div class="header-message">SOLUTION</div>
 
-<div class="menu" id="menu">
-  
- <a href="3d.html"class="des"><p>Creation</p></a>
- <a href="works.html"class="works"><P>works</P></a>
-  <a href="contact.html"class="cont"><p>Contact</p></a>
-</div>
-
-<div class="down">
-  <a href="#subway-1"><div>Subway</div></a>
-  <a href="#a-to-2"><div>Museum</div></a>
-  <a href="#street-1"><div>Street</div></a>
-  <a href="#tree-1"><div>Tree</div></a>
-  <a href="#whether-1"><div>Weather</div></a>
-</div>
-
-<main>
-  <section class="south">
-    <div class="whether">whether</div>
-  </section>
-
-  <section class="back-2" id="subway-1">
-    <div class="img-container">
-      <img src="subway.jpg" alt="写真2">
-      <div class="text-box">
-        <div class="text-title-2">Subway</div>
-        <div class="text-desc-2">半分眠ったままの街が、地下鉄のリズムに合わせて少しずつ目を覚ましていく。</div>
-      </div>
+<section class="main">
+    <p class="menu">manu</p>
+    <p class="text">Kominca guest house</p>
+    <p class="studio">black and white</p>
+    <img src="road.jpg" class="pic">
+    <p class="text-12">scroll</p>
+</section>
+<div class="text-2">chenge</div>
+<section class="main-2">
+    <div class="item"><img src="aunt1.jpg">
+    <p>aunt</p>
+   </div>
+    <div class="item">
+    <img src="30.jpg">
+    <p>street</p>
     </div>
-  </section>
+    <div class="item"> <img src="ao.jpg">
+    <p>blue</p>
+   </div>
+   <div class="item"><img src="rogi.jpg">
+    <p> apris</p>
+  </div>
+    
+</section>
+<div class="text-3">love</div>
+<video src="foryou.mp4"muted autoplay loop class="video"></video>
+<section class="text-7">
+    <p>Always wearing a happy smile.</p>
+</section>
+<section class="photo">
+    <div class="photo-track">
+        <img src="kyoto.jpg">
+        <img src="river.jpg">
+        <img src="green.jpg">
+        <img src="tikatetu.jpg">
+        <img src="tree.jpg">
+        <img src="show.jpg">
 
-  <div class="word">imagination</div>
-
-  <section class="back-2" id="a-to-2">
-    <div class="img-container">
-      <img src="a-to.jpg" alt="写真2">
-      <div class="text-box">
-        <div class="text-title-2">Museum</div>
-        <div class="text-desc-2">美術館の片隅、ひとつの作品の前で足が止まった。</div>
-      </div>
+        <!-- 無限ループ用に同じセットをもう一回 -->
+        <img src="kyoto.jpg">
+        <img src="river.jpg">
+        <img src="green.jpg">
+        <img src="tikatetu.jpg">
+        <img src="tree.jpg">
+        <img src="show.jpg">
     </div>
-  </section>
+</section>
 
-  <section class="back-4" id="street-1">
-    <div class="img-container">
-      <img src="Id 324.jpg" alt="写真4">
-      <div class="text-box">
-        <div class="text-title-4">Street</div>
-        <div class="text-desc-4">灯る看板がゆらりと揺れ、その先には昼とは別の顔をした小さな店があった。</div>
-      </div>
-    </div>
-  </section>
+<hr>
+<footer>
+   <p> guest house<br>
+    for talvel<br>
+    information</p>
+      <p class="text-9">★★★★★</p>
+    
+    <p class="text-10">kfndmd.gmail.com</p>
+</footer>
+<style>
+html, body {
+    margin: 0;
+    padding: 0;
 
-  <section class="back-2" id="tree-1">
-    <div class="img-container">
-      <img src="tree.jpg" alt="写真2">
-      <div class="text-box">
-        <div class="text-title-2">Tree</div>
-        <div class="text-desc-2">揺れる街路樹の影がゆっくり揺れる。</div>
-      </div>
-    </div>
-  </section>
-</main>
-
-<div class="subway" id="whether-1">
-  <img src="view.jpg" alt="">
-</div>
-
-<video src="art.mp4" autoplay muted loop playsinline class="video"></video>
-<footer>Just like weather</footer>
-
-<script>
-const hamburger = document.getElementById('hamburger');
-const menu = document.getElementById('menu');
-const closeBtn = document.getElementById('closeBtn');
-
-// ハンバーガークリック → メニュー開閉
-hamburger.addEventListener('click', () => {
-  hamburger.classList.toggle('active');
-  menu.classList.toggle('active');
-  closeBtn.classList.toggle('show');
-});
-
-// ×ボタンクリック → メニュー閉じる
-closeBtn.addEventListener('click', () => {
-  hamburger.classList.remove('active');
-  menu.classList.remove('active');
-  closeBtn.classList.remove('show');
-});
-
-// スクロールで要素を表示
-const sections = document.querySelectorAll('section');
-const words = document.querySelectorAll('.word');
-
-function reveal() {
-  const triggerBottom = window.innerHeight * 0.85;
-  sections.forEach(section => {
-    const sectionTop = section.getBoundingClientRect().top;
-    if (sectionTop < triggerBottom) section.classList.add('show');
-  });
-  words.forEach(word => {
-    const wordTop = word.getBoundingClientRect().top;
-    if (wordTop < triggerBottom) word.classList.add('show');
-  });
+}
+/* ハンバーガーメニュー初期状態（非表示） */
+.hamburger-menu {
+    position: fixed;
+    top: 0;
+    left: -50%;
+    width: 50%;
+    height: 100%;
+    background-color: rgba(188, 14, 14, 0.95);
+    color:white;
+    opacity: 0;
+    transition: all 0.5s ease;
+    z-index: 1000;
+    padding: 60px 20px;
+    box-sizing: border-box;
 }
 
-window.addEventListener('scroll', reveal);
-window.addEventListener('load', reveal);
+/* activeでスライド＆フェードイン */
+.hamburger-menu.active {
+    left: 0;
+    opacity: 1;
+}
+.menu, .text {
+    position: absolute;
+    color: white;
+    z-index: 10; /* 画像より前面に表示 */
+    opacity: 0;
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.menu {
+    top: 20px;
+    left: 20px;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.text-12{
+    position: absolute;
+    bottom: 30px;
+    left:48%;
+    color: rgb(242, 241, 241);
+    
+}
+.text {
+    top: 20px;
+    left: 100px;
+    font-size: 20px;
+}
+/* フェードイン用クラス */
+.visible-text {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* メニューリスト */
+.hamburger-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 40px 0 0 0;
+  
+}
+.hamburger-menu li {
+    margin: 20px 0;
+    
+}
+.hamburger-menu a {
+    color: rgb(11, 11, 11);
+    text-decoration: none;
+    font-size: 30px;
+}
+.hamburger-menu a:hover {
+    color: rgb(246, 243, 243);
+    text-decoration: none;
+    font-size: 30px;
+}
+
+/* Closeボタン */
+.hamburger-menu .close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+/* メインコンテンツ */
+.main {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+.main .menu {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    color: white;
+    font-size: 10px;
+    cursor: pointer;
+}
+.pic {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+
+    /* ここからフェード用 */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1.2s ease, transform 1.2s ease;
+}
+.pic.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+
+
+/* --- 左上の「manu」 --- */
+.main .menu {
+    position: absolute;
+    color: white;
+    left: 20px;
+    top: 20px;
+    font-size: 14px;
+    margin: 0;
+    font-weight: bold;
+}
+
+/* --- PC の「home」位置 --- */
+.main .text {
+    position: absolute;
+    top: 20px;
+    left: 850px;
+    color: white;
+    margin: 0;
+    font-size: 20px;
+}
+.main .studio{
+    position: absolute;
+    color: white;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 50%;
+    font-size: 56px;
+}
+.text-2{
+    text-align: center;
+    padding: 25px;
+    padding-top: 60px;
+}
+.main-2 {
+    display: flex;              /* 横並びにする */
+    justify-content: center;    /* 真ん中寄せ */
+    background-color: rgb(238, 241, 243);
+    padding: 60px 0 200px 0;
+}
+
+.main-2 .item {
+    text-align: center;
+    margin: 0 20px;             /* 横の余白 */
+}
+
+.main-2 img {
+    width: 280px;
+    height: 180px;
+    object-fit: cover;
+}
+.text-3{
+    text-align: center;
+    padding: 25px;
+}
+.video{
+    width:100%
+    
+}
+.text-7{
+    font-size: 24px;
+    text-align: center;
+}
+.photo {
+    overflow: hidden;   /* はみ出た部分を隠す */
+    width: 100%;
+}
+
+.photo-track {
+    display: flex;
+    gap: 60px;
+    animation: scroll 12s linear infinite;
+}
+
+.photo-track img {
+    width: 16.66%; /* 6枚で100%分割 */
+    height: 230px;
+    object-fit: cover;
+}
+
+/* 横スクロールアニメーション */
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* スマホ対応 */
+@media (max-width: 480px) {
+    .photo-track img {
+        width: 200px;
+        height: 80px;
+        object-fit: cover;
+    }
+}
+.hamburger-menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 12px;
+}
+footer{
+    padding-top: 400px;
+    padding-bottom: 30px ;
+    padding-left: 24px;
+}
+
+/* --- スマホ --- */
+@media (max-width: 768px) {
+    .main .text {
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .text-12{
+    position: absolute;
+    bottom: 30px;
+    left:43%;
+    color: rgb(242, 241, 241);
+    
+}
+    .main-2 {
+    display: flex;              /* 横並びにする */
+    justify-content: center;    /* 真ん中寄せ */
+    background-color: rgb(238, 241, 243);
+    padding: 60px 0 4px 0;
+}
+
+    .main-2 {
+        flex-direction: column;  /* 縦並びにする */
+        align-items: center;
+    }
+
+    .main-2 img {
+        width: 280px;
+        height: auto;
+        padding-top: 20px;
+    }
+    .photo img {
+    width: 200px;
+    height: 80px;
+    object-fit: cover;
+}
+footer{
+    position: relative;
+    padding-top: 400px;
+    padding-bottom: 30px ;
+    padding-left: 24px;
+}
+.text-9{
+    position: absolute;
+    left: 23px;
+    bottom: 1px;
+    
+}
+.text-10{
+    position: absolute;
+    left: 23px;
+
+}
+footer p{
+      position: absolute;
+      bottom: 58px;
+      font-size: 12px;
+    }
+    .text-9{
+      position: absolute;
+      bottom: 30px;
+      
+    }
+    .text-10{
+      position: absolute;
+      left:26px;
+      bottom: 2px;
+      top: auto;
+     
+    }
+}
+</style>
+<script>
+// メニュー開閉処理
+const menuBtn = document.querySelector('.menu');
+const hamburger = document.getElementById('hamburger-menu');
+const closeBtn = document.querySelector('.hamburger-menu .close-btn');
+
+menuBtn.addEventListener('click', () => {
+    hamburger.classList.add('active');
+});
+
+closeBtn.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+});
+
+window.addEventListener("load", () => {
+    const pic = document.querySelector(".pic");
+    pic.classList.add("visible");
+});
+window.addEventListener('load', () => {
+    const pic = document.querySelector('.pic');
+    const menu = document.querySelector('.menu');
+    const home = document.querySelector('.text');
+
+    // 画像フェードイン
+    pic.classList.add('visible');
+
+    // 文字フェードイン（少し遅らせるときれい）
+    setTimeout(() => {
+        menu.classList.add('visible-text');
+        home.classList.add('visible-text');
+    }, 500);
+});
 </script>
+
+</script>
+
+
 </body>
 </html>
-
