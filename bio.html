@@ -3,35 +3,89 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <a href="manu.html"class="text">manu</a>
   <title>Intro → Menu (改訂版)</title>
-  <h2>Contact</h2>
-  
 
-<form action="mailto:あなたのGmailアドレス@gmail.com" method="POST" enctype="text/plain">
-  <label>name</label><br>
-  <input type="text" name="name" required><br><br>
-
-  <label>mail address</label><br>
-  <input type="email" name="email" required><br><br>
-
-  <label>message</label><br>
-  <textarea name="message" rows="5" required></textarea><br><br>
-
-  <button type="submit">send</button>
-</form>
-<Footer>©Kimiaki Yasui</Footer>
-<style>
-    .text{
-        text-decoration: none;
-        color: black;
-        font-weight: bold;
-        font-size: 12px;
+  <style>
+    body{
+      margin:0;
+      font-family: Arial, sans-serif;
     }
+
+    .text{
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+      font-size: 12px;
+    }
+
     footer{
-      margin-top: 20%;
+      margin-top: 130%;
       background-color: black;
       color: wheat;
       padding: 12px;
+      text-align: center;
     }
-</style>
+
+    /* ===== 左下固定フォーム ===== */
+    .contact-form{
+      position: fixed;
+      left: 10px;
+      bottom: 70px;
+      background: #fff;
+      padding: 12px;
+      width: 220px;
+     
+      font-size: 12px;
+    }
+
+    .contact-form h3{
+      margin: 0 0 8px;
+      font-size: 13px;
+    }
+
+    .contact-form input,
+    .contact-form textarea{
+      width: 100%;
+      margin-bottom: 6px;
+      padding: 6px;
+      font-size: 12px;
+    }
+
+    .contact-form button{
+      width: 100%;
+      padding: 6px;
+      background: black;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .contact-form button:hover{
+      opacity: 0.8;
+    }
+  </style>
+</head>
+
+<body>
+
+<a href="manu.html" class="text">manu</a>
+<h2>Contact</h2>
+
+<!-- ===== 左下フォーム ===== -->
+<form
+  class="contact-form"
+  action="https://formspree.io/f/xxxxabcd"
+  method="POST"
+>
+  <h3>Contact</h3>
+
+  <input type="email" name="email" placeholder="Your Email" required>
+  <textarea name="message" rows="3" placeholder="Message" required></textarea>
+
+  <button type="submit">Send</button>
+</form>
+
+<footer>©Kimiaki Yasui</footer>
+
+</body>
+</html>
